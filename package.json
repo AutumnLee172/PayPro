@@ -27,6 +27,7 @@
   "devDependencies": {
     "@capacitor/cli": "4.7.3",
     "@vitejs/plugin-vue": "^4.0.0",
+    "@vue/compiler-sfc": "^3.2.47",
     "@vue/eslint-config-typescript": "^11.0.2",
     "@vue/test-utils": "^2.3.0",
     "cypress": "^12.7.0",

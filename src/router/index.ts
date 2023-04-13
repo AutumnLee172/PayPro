@@ -17,16 +17,24 @@ const routes: Array<RouteRecordRaw> = [
       },
       {
         path: 'tab1',
-        component: () => import('@/views/Tab1Page.vue')
+        component: () => import('@/views/Home.vue')
       },
       {
-        path: 'tab2',
-        component: () => import('@/views/Tab2Page.vue')
+        path: 'wallet',
+        component: () => import('@/views/wallet.vue')
       },
       {
-        path: 'tab3',
-        component: () => import('@/views/Tab3Page.vue')
-      }
+        path: 'newtrx',
+        component: () => import('@/views/NewTransaction.vue')
+      },
+      {
+        path: 'news',
+        component: () => import('@/views/News.vue')
+      },
+      {
+        path: 'profile',
+        component: () => import('@/views/Profile.vue')
+      },
     ]
   }
 ]
