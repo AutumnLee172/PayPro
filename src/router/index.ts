@@ -5,7 +5,7 @@ import TabsPage from '../views/TabsPage.vue'
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
-    component: () => import('@/views/Login.vue')
+    component: () => import('@/views/Auth/Login.vue')
   },
   {
     path: '/tabs/',
@@ -21,7 +21,7 @@ const routes: Array<RouteRecordRaw> = [
       },
       {
         path: 'wallet',
-        component: () => import('@/views/wallet.vue')
+        component: () => import('@/views/Wallet/wallet.vue')
       },
       {
         path: 'newtrx',
@@ -36,7 +36,19 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import('@/views/Profile.vue')
       },
     ]
-  }
+  },
+  {
+    path: '/register',
+    component: () => import('@/views/Auth/Register.vue')
+  },
+  {
+    path: '/login',
+    component: () => import('@/views/Auth/Login.vue')
+  },
+  {
+    path: '/wallettypes',
+    component: () => import('@/views/Wallet/WalletTypes.vue')
+  },
 ]
 
 const router = createRouter({

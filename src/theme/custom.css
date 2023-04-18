@@ -1,0 +1,25 @@
+
+.primary-btn{
+    color: #fffffd;
+    font-family: "Open Sans", sans-serif;
+    font-size: 14px;
+    height: 3.4em;
+  }
+
+  ion-button {
+    text-transform: none;
+   }
+
+  .textfield {
+    --placeholder-color: #A2A2A2;
+    background-color: #121212;
+  }
+  
+  .textfield:focus{
+    background-color: #121212;
+    caret-color: #a159ff;
+  }
+
+  .hyperlink {
+    color: #F8F8F8;
+  }

@@ -238,24 +238,4 @@ http://ionicframework.com/docs/theming/ */
 
     --ion-card-background: #1e1e1e;
   }
-
-
-  .primary-btn{
-    color: #fffffd;
-    font-family: "Open Sans", sans-serif;
-    font-size: 14px;
-    height: 3.4em;
-  }
-
-  ion-button {
-    text-transform: none;
-   }
-
-  .textfield {
-    --placeholder-color: #A2A2A2;
-  }
-
-  .hyperlink {
-    color: #F8F8F8;
-  }
 }
