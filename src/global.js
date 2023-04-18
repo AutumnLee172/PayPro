@@ -1,5 +1,5 @@
 //Online hosting API
-// export const API_URL = 'https://isunialand.online';
+//  export const API_URL = 'https://isunialand.online';
 
 //Local hosting API
 export const API_URL = 'http://127.0.0.1:8000';

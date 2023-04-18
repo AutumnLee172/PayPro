@@ -49,6 +49,13 @@ const routes: Array<RouteRecordRaw> = [
     path: '/wallettypes',
     component: () => import('@/views/Wallet/WalletTypes.vue')
   },
+  {
+    path: '/wallet/new/:name',
+    name: 'wallet.new',
+    component: () => import('@/views/Wallet/WalletAuth.vue'),
+    props: true
+  },
+  
 ]
 
 const router = createRouter({

@@ -34,7 +34,7 @@
 </template>
 
 <script setup lang="ts">
-import { IonTabBar, IonTabButton, IonTabs, IonLabel, IonIcon, IonPage, IonRouterOutlet } from '@ionic/vue';
+import { IonTabBar, IonTabButton, IonTabs, IonLabel, IonIcon, IonPage, IonRouterOutlet, IonButton } from '@ionic/vue';
 import { addCircleOutline, personOutline, homeOutline, walletOutline, notificationsOutline } from 'ionicons/icons';
 </script>
 
