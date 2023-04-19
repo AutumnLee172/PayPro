@@ -2,8 +2,11 @@
     <div>
         <ion-card>
             <ion-card-header>
+                <ion-row>
+                <ion-img class="img mx-1" :src="'img/logos/' + WalletName + '.png'"></ion-img>
                 <ion-card-title class="font-weight-bolder px-2 mt-2 title" :style="{ color: textColor }">{{ WalletName
                 }}</ion-card-title>
+                </ion-row>
                 <!-- <ion-card-subtitle class="px-2">Available Balance: {{ Balance }}</ion-card-subtitle> -->
             </ion-card-header>
 
@@ -22,10 +25,10 @@
 </template>
   
 <script setup lang="ts">
-import { IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonButton, IonRow, IonCol } from '@ionic/vue';
+import { IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonButton, IonRow, IonCol, IonImg } from '@ionic/vue';
 defineProps({
     WalletName: String,
-    Balance: String,
+    Balance: Number,
     walletID: String,
     textColor: {
         type: String,
@@ -41,5 +44,9 @@ defineProps({
 
 ion-card {
     --background: #333333;
+}
+.img {
+    width: 2.8em;
+    height: 2.8em;
 }
 </style>
