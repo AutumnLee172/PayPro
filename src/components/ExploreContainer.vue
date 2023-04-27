@@ -1,13 +1,14 @@
 <template>
   <div id="container">
     <strong>{{ name }}</strong>
-    <p>Explore <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">hehe</a></p>
+    <p>{{ content }}</p>
   </div>
 </template>
 
 <script setup lang="ts">
 defineProps({
   name: String,
+  content: String,
 });
 </script>
 

@@ -36,7 +36,8 @@
                 <ion-grid class="mx-2">
                     <ion-row>
                         <ion-col v-for="(bank, index) in banks" :key="index" size="3">
-                            <ion-button class="btnlogo ">
+                            <ion-button class="btnlogo"
+                                :routerLink="{ name: 'wallet.new', params: { name: bank.name } }">
                                 <ion-row class="ion-justify-content-center">
                                     <ion-col class="ion-text-center">
                                         <ion-img class="img mx-1" :src="'img/logos/' + bank.name + '.png'"></ion-img>

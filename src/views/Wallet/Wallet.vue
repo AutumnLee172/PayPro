@@ -3,8 +3,10 @@
 
     <ion-content :fullscreen="true">
 
-      <div v-for="(wallet, index) in wallets" :key="index">
-        <WalletCard :WalletName="wallet.wallet_type" :Balance="wallet.balance" />
+      <ExploreContainer name="My Wallets" content="You have not linked a wallet yet."  v-if="!wallets.length"/>
+      <div v-for="(wallet, index) in wallets" :key="index" v-else>
+        
+        <WalletCard :WalletName="wallet.wallet_type" :Balance="wallet.balance"/>
       </div>
       <ion-fab slot="fixed" vertical="bottom" horizontal="end">
         <ion-fab-button>
@@ -25,6 +27,7 @@ import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonFab, IonFabBut
 import { addOutline, walletOutline } from 'ionicons/icons';
 import WalletCard from '@/components/WalletCard.vue';
 import { defineComponent, inject, reactive } from 'vue';
+import ExploreContainer from '@/components/ExploreContainer.vue';
 import { useRouter } from 'vue-router';
 import axios from 'axios';
 
@@ -44,6 +47,7 @@ export default defineComponent({
     IonIcon,
     IonFabList,
     WalletCard,
+    ExploreContainer,
   },
   setup() {
     return { addOutline, walletOutline };
