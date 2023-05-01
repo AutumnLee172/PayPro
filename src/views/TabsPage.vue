@@ -15,7 +15,7 @@
 
         <ion-tab-button tab="new" href="/tabs/newtrx" >
           <ion-button class="circle-button bg-class" color="secondary">
-            <ion-icon slot="icon-only" :icon="addCircleOutline" size="large"></ion-icon>
+            <ion-icon  class="white-button" slot="icon-only" :icon="addCircleOutline" size="large"></ion-icon>
           </ion-button>
         </ion-tab-button>
 
@@ -50,5 +50,9 @@ import { addCircleOutline, personOutline, homeOutline, walletOutline, notificati
   .bg-class{
   --background: linear-gradient(to right bottom, #a159ff, #e33ad1, #ff2ca0, #ff4274, #ff6250) !important;
   color: #f4f5f8;
+  }
+
+  .white-button{
+    color: #f4f5f88c;
   }
 </style>
