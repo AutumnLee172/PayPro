@@ -6,7 +6,7 @@
       <ExploreContainer name="My Wallets" content="You have not linked a wallet yet."  v-if="!wallets.length"/>
       <div v-for="(wallet, index) in wallets" :key="index" v-else>
         
-        <WalletCard :WalletName="wallet.wallet_type" :Balance="wallet.balance"/>
+        <WalletCard :WalletName="wallet.wallet_type" :Balance="wallet.balance" :walletID="wallet.id"/>
       </div>
       <ion-fab slot="fixed" vertical="bottom" horizontal="end">
         <ion-fab-button>
@@ -64,7 +64,7 @@ export default defineComponent({
         userid: localStorage.getItem('userid'),
       }),
       router: useRouter(),
-      wallets: [{wallet_type: '', balance: 0}],
+      wallets: [{wallet_type: '', balance: 0, id: 0}],
     };
   },
   methods: {

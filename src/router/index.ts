@@ -55,6 +55,13 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import('@/views/Wallet/WalletAuth.vue'),
     props: true
   },
+  {
+    path: '/trxview/:name/:id',
+    name: 'trx.view',
+    component: () => import('@/views/Transactions/Trxview.vue'),
+    props: true    
+  },
+  
   
 ]
 

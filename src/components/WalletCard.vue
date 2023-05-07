@@ -17,7 +17,7 @@
             <ion-row class="mx-2">
                 <ion-button fill="clear">Transfer</ion-button>
                 <ion-button fill="clear">Pay</ion-button>
-                <ion-button fill="clear">View</ion-button>
+                <ion-button :routerLink="{ name: 'trx.view', params: { name: WalletName, id: walletID} }" fill="clear" >View</ion-button>
             </ion-row>
 
         </ion-card>
@@ -29,7 +29,7 @@ import { IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, 
 defineProps({
     WalletName: String,
     Balance: Number,
-    walletID: String,
+    walletID: Number,
     textColor: {
         type: String,
         default: "white",
