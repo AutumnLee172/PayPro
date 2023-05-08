@@ -18,8 +18,10 @@
             <ion-item>
             <ion-label>
               <div class="row main-text">
-                <div class="col">
-                  <ion-label>Transfer to {{ transaction.to_wallet_type }}</ion-label>
+                <div class="col">                  
+                  <ion-label v-if="transaction.transaction_type == 'Internal' && transaction.to_account == id">Receive from {{ transaction.to_wallet_type }}</ion-label>
+                  <ion-label v-else-if="transaction.transaction_type == 'External' && transaction.to_account == id && transaction.to_wallet_type == 'Linked PayPro Wallet'" >Receive from {{ transaction.to_wallet_type }}</ion-label>
+                  <ion-label v-else>Transfer to {{ transaction.to_wallet_type }}</ion-label>
                 </div>
                 <div class="text-end col">
                   <ion-label>RM {{ transaction.amount }}</ion-label>
@@ -77,7 +79,7 @@ export default defineComponent({
       form: reactive({
         walletid: this.id,
       }),
-      transactions: [{ wallet_type: '', amount: 0, to_wallet_type: '', date: '', transaction_type: '' }],
+      transactions: [{ wallet_type: '', amount: 0, to_wallet_type: '', date: '', transaction_type: '', to_account: 0 }],
     };
   },  
   created() {
