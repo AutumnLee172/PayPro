@@ -8,7 +8,7 @@
               <ion-label>
                 <div class="row">
                   <div class="col">
-                    <ion-label class="text-wrap main-text">Transfer to {{ notification.description }}</ion-label>
+                    <ion-label class="text-wrap main-text">{{ notification.description }}</ion-label>
                   </div>
                 </div>
                 <div class="row my-1">

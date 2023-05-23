@@ -2,10 +2,10 @@
   <ion-page>
     <ion-content :fullscreen="true">
 
-      <HomeCard Subtitle="Total Wallet Value: " Title="RM7000000">
-        <div class="px-2 subtitle">among 5 wallets</div>
+      <HomeCard Subtitle="Total Wallet Value: " :Title="`RM ${walletvalue.sum}`">
+        <div class="px-2 subtitle">among {{ walletvalue.walletnumber }} wallets</div>
       </HomeCard>
-      <div class="mx-2 row">
+      <!-- <div class="mx-2 row">
         <div class="col">
           <ion-button fill="outline">
             <ion-row class="ion-justify-content-center">
@@ -26,11 +26,12 @@
         <div class="col">
           <ion-button> Test </ion-button>
         </div>
-      </div>
+      </div> -->
 
-      <div class="button-row">
+      <div class="button-row mx-1">
         <div v-for="(button, index) in buttons" :key="index" class="button-wrapper">
-          <ion-button color="primary" expand="full">
+          <ion-button color="primary" >
+            <!-- <ion-icon aria-hidden="true" :icon="star"/> -->
             <ion-icon :icon="button.icon"></ion-icon>
             <span>{{ button.label }}</span>
           </ion-button>
@@ -39,36 +40,19 @@
       <LargeCard Title="Stats">
         <apexchart type="line" :options="chartOptions" :series="series"></apexchart>
       </LargeCard>
-      <LargeCard Title="Recent Transactions">
+      <LargeCard Title="Recent Activities">
         <ion-list>
-          <div v-for="(transaction, index) in transactions" :key="index">
+          <div v-for="(notification, index) in notifications" :key="index">
             <ion-item>
               <ion-label>
-                <div class="row main-text">
-                  <div class="col-8">
-                    <ion-label v-if="transaction.transaction_type == 'Internal' && transaction.to_account == id">Receive
-                      from {{ transaction.wallet_type }}</ion-label>
-                    <ion-label
-                      v-else-if="transaction.transaction_type == 'External' && transaction.to_account == id && transaction.to_wallet_type == 'Linked PayPro Wallet'">Receive
-                      from {{ transaction.wallet_type }}</ion-label>
-                    <ion-label v-else>Transfer to {{ transaction.to_wallet_type }}</ion-label>
-                  </div>
-                  <div class="text-end col">
-                    <ion-label style="color:#7168eeea"
-                      v-if="transaction.transaction_type == 'Internal' && transaction.to_account == id">+ RM {{
-                        transaction.amount }}</ion-label>
-                    <ion-label style="color:#7168eeea"
-                      v-else-if="transaction.transaction_type == 'External' && transaction.to_account == id && transaction.to_wallet_type == 'Linked PayPro Wallet'">+
-                      RM {{ transaction.amount }}</ion-label>
-                    <ion-label v-else> - RM {{ transaction.amount }}</ion-label>
+                <div class="row">
+                  <div class="col">
+                    <ion-label class="text-wrap main-text ">{{ notification.description }}</ion-label>
                   </div>
                 </div>
                 <div class="row my-1">
-                  <div class="col">
-                    <p> {{ transaction.transaction_type }} Transaction </p>
-                  </div>
-                  <div class="text-end col">
-                    <p>{{ transaction.date }}</p>
+                  <div class="col main-text">
+                    <p>{{ notification.date }}</p>
                   </div>
                 </div>
               </ion-label>
@@ -88,6 +72,7 @@ import LargeCard from '@/components/LargeCard.vue';
 import { defineComponent, inject, reactive } from 'vue';
 import VueApexCharts from "vue3-apexcharts";
 import { star, addOutline, walletOutline, settingsOutline } from 'ionicons/icons';
+import axios from 'axios';
 
 
 export default defineComponent({
@@ -125,7 +110,8 @@ export default defineComponent({
     return { star, addOutline, walletOutline, settingsOutline };
   },
   created() {
-
+    this.getWalletValue();
+    this.getLatestActivities();
   },
   data() {
     return {
@@ -133,7 +119,10 @@ export default defineComponent({
       form: reactive({
         userid: localStorage.getItem('userid'),
       }),
+      isloading: false,
       transactions: [{ wallet_type: '', amount: 0, to_wallet_type: '', date: '', transaction_type: '', to_account: 0 }],
+      walletvalue: [{ sum: 0, walletnumber: 0 }],
+      notifications: [{ description: '', date: '' }],
       chartOptions: {
         chart: {
           id: "vuechart-example",
@@ -155,7 +144,7 @@ export default defineComponent({
         },
       ],
       buttons: [
-        { icon: addOutline, label: 'Add' },
+        { icon: star, label: 'Add' },
         { icon: walletOutline, label: 'Wallet' },
         { icon: settingsOutline, label: 'Settings' },
         { icon: addOutline, label: 'Add' },
@@ -166,7 +155,36 @@ export default defineComponent({
     };
   },
   methods: {
-
+    async getWalletValue() {
+      try {
+        const response = await axios.post(`${this.apiUrl}/api/home/getWalletsValue`, this.form);
+        if (response.data.status == true) {
+          this.isloading = false;
+          this.walletvalue = response.data.data;
+        } else if (response.data.status == false) {
+          console.log("error fetching data");
+          this.isloading = false;
+        }
+      } catch (error) {
+        console.log(error);
+        this.isloading = false;
+      }
+    },
+    async getLatestActivities() {
+      try {
+        const response = await axios.post(`${this.apiUrl}/api/home/getLatestActivities`, this.form);
+        if (response.data.status == true) {
+          this.isloading = false;
+          this.notifications = response.data.data;
+        } else if (response.data.created == false) {
+          console.log("error fetching data");
+          this.isloading = false;
+        }
+      } catch (error) {
+        console.log(error);
+        this.isloading = false;
+      }
+    }
   }
 });
 
@@ -191,5 +209,9 @@ ion-button{
 
 .button-wrapper {
   margin-right: 8px;
+}
+
+.main-text{
+  color: #aaa2a9;
 }
 </style>

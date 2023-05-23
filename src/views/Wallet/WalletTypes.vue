@@ -3,6 +3,9 @@
         <ion-content :fullscreen="true">
             <ion-header>
                 <ion-toolbar>
+                    <ion-buttons slot="start">
+                        <ion-back-button default-href="/tabs/wallet" :icon="caretBack"></ion-back-button>
+                    </ion-buttons>
                     <ion-title class="mx-2">Adding new wallet</ion-title>
                 </ion-toolbar>
             </ion-header>
@@ -36,8 +39,7 @@
                 <ion-grid class="mx-2">
                     <ion-row>
                         <ion-col v-for="(bank, index) in banks" :key="index" size="3">
-                            <ion-button class="btnlogo"
-                                :routerLink="{ name: 'wallet.new', params: { name: bank.name } }">
+                            <ion-button class="btnlogo" :routerLink="{ name: 'wallet.new', params: { name: bank.name } }">
                                 <ion-row class="ion-justify-content-center">
                                     <ion-col class="ion-text-center">
                                         <ion-img class="img mx-1" :src="'img/logos/' + bank.name + '.png'"></ion-img>
@@ -55,8 +57,9 @@
 </template>
   
 <script lang="ts">
-import { IonPage, IonContent, IonGrid, IonRow, IonCol, IonButton, IonIcon, IonImg, IonTitle, IonLabel, IonHeader, IonToolbar } from '@ionic/vue';
+import { IonPage, IonContent, IonGrid, IonRow, IonCol, IonButton, IonIcon, IonImg, IonTitle, IonLabel, IonHeader, IonToolbar, IonButtons, IonBackButton } from '@ionic/vue';
 import { defineComponent } from 'vue';
+import { caretBack } from 'ionicons/icons';
 
 
 export default defineComponent({
@@ -73,6 +76,11 @@ export default defineComponent({
         IonLabel,
         IonHeader,
         IonToolbar,
+        IonButtons,
+        IonBackButton,
+    },
+    setup() {
+        return { caretBack };
     },
     data() {
         return {
