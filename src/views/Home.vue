@@ -30,17 +30,17 @@
 
       <div class="button-row mx-1">
         <div v-for="(button, index) in buttons" :key="index" class="button-wrapper">
-          <ion-button color="primary" >
+          <ion-button color="primary">
             <!-- <ion-icon aria-hidden="true" :icon="star"/> -->
             <ion-icon :icon="button.icon"></ion-icon>
             <span>{{ button.label }}</span>
           </ion-button>
         </div>
       </div>
-      <LargeCard Title="Stats">
-        <apexchart type="line" :options="chartOptions" :series="series"></apexchart>
+      <LargeCard Title="Transaction Amount" Subtitle="External Transaction">
+        <apexchart :options="chartOptions" :series="series"></apexchart>
       </LargeCard>
-      <LargeCard Title="Recent Activities">
+      <LargeCard Title="Recent Activities" >
         <ion-list>
           <div v-for="(notification, index) in notifications" :key="index">
             <ion-item>
@@ -102,7 +102,7 @@ export default defineComponent({
     IonButton,
     IonList,
     IonIcon,
-    IonRow, 
+    IonRow,
     IonCol,
     apexchart: VueApexCharts,
   },
@@ -112,6 +112,7 @@ export default defineComponent({
   created() {
     this.getWalletValue();
     this.getLatestActivities();
+    this.getChartData();
   },
   data() {
     return {
@@ -123,26 +124,81 @@ export default defineComponent({
       transactions: [{ wallet_type: '', amount: 0, to_wallet_type: '', date: '', transaction_type: '', to_account: 0 }],
       walletvalue: [{ sum: 0, walletnumber: 0 }],
       notifications: [{ description: '', date: '' }],
+      series: [{
+        data: [
+
+        ]
+      }],
       chartOptions: {
         chart: {
-          id: "vuechart-example",
-          toolbar: {
-            show: false, // Hide the toolbar
+          id: 'area-datetime',
+          type: 'area',
+          height: 350,
+          zoom: {
+            autoScaleYaxis: true
           },
+          toolbar: {
+            show: false,
+          }
+        },
+        dataLabels: {
+          enabled: false
+        },
+        markers: {
+          size: 0,
+          style: 'hollow',
         },
         xaxis: {
-          categories: [1991, 1992, 1993, 1994, 1995, 1996],
+          type: 'datetime',
+          labels: {
+            style: {
+              colors: 'white',
+              fontSize: '12px',
+              fontFamily: 'Helvetica, Arial, sans-serif',
+              fontWeight: 400,
+              cssClass: 'apexcharts-yaxis-label',
+            },
+            datetimeUTC: false,
+          },
         },
-        stroke: {
-          curve: 'smooth',
+        tooltip: {
+          x: {
+            format: 'dd MMM yyyy',
+          },
+          y: {
+          formatter: undefined,
+          title: {
+              formatter: (seriesName) => "MYR",
+          },
+      },
+        },
+        fill: {
+          type: 'gradient',
+          gradient: {
+            shadeIntensity: 1,
+            opacityFrom: 0.5,
+            opacityTo: 0.0,
+            stops: [0, 100]
+          }
+        },
+        yaxis: {
+          tickAmount: 4,
+          labels: {
+            style: {
+              colors: 'white',
+              fontSize: '12px',
+              fontFamily: 'Helvetica, Arial, sans-serif',
+              fontWeight: 400,
+              cssClass: 'apexcharts-yaxis-label',
+            },
+          },
+          title: {
+          text: "MYR",
+          rotate: -90,
+      },
         },
       },
-      series: [
-        {
-          name: "series-1",
-          data: [30, 40, 35, 50, 49, 60],
-        },
-      ],
+
       buttons: [
         { icon: star, label: 'Add' },
         { icon: walletOutline, label: 'Wallet' },
@@ -184,6 +240,28 @@ export default defineComponent({
         console.log(error);
         this.isloading = false;
       }
+    },
+    async getChartData() {
+      try {
+        const response = await axios.post(`${this.apiUrl}/api/home/getChartData`, this.form);
+        if (response.data.status == true) {
+          this.isloading = false;
+          const convertedData = response.data.data.map((item) => {
+            const date = item.days;
+            const value = item.sum;
+            return [date, value];
+          });
+          this.series = [{
+            data: convertedData
+          }];
+        } else if (response.data.created == false) {
+          console.log("error fetching data");
+          this.isloading = false;
+        }
+      } catch (error) {
+        console.log(error);
+        this.isloading = false;
+      }
     }
   }
 });
@@ -196,7 +274,7 @@ export default defineComponent({
   color: #948492;
 }
 
-ion-button{
+ion-button {
   max-width: 60px;
   min-height: 60px;
 }
@@ -211,7 +289,7 @@ ion-button{
   margin-right: 8px;
 }
 
-.main-text{
+.main-text {
   color: #aaa2a9;
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <ion-card>
+        <ion-card >
             <ion-card-header>
                 <ion-card-title class="font-weight-bolder px-2 mt-2 title" :style="{ color: textColor }">{{ Title
                 }}</ion-card-title>
@@ -20,6 +20,10 @@ defineProps({
     Title: String,
     Subtitle: String,
     textColor: {
+        type: String,
+        default: "white",
+    },
+    bgcolor: {
         type: String,
         default: "white",
     },
