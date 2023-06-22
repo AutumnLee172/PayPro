@@ -40,7 +40,7 @@
       <LargeCard Title="Transaction Amount" Subtitle="External Transaction">
         <apexchart :options="chartOptions" :series="series"></apexchart>
       </LargeCard>
-      <LargeCard Title="Recent Activities" >
+      <LargeCard Title="Recent Activities">
         <ion-list>
           <div v-for="(notification, index) in notifications" :key="index">
             <ion-item>
@@ -60,12 +60,14 @@
           </div>
         </ion-list>
       </LargeCard>
+      <ion-alert :is-open="isOpen" header="Biometric Registration" sub-header="Important!" message="Please confirm if you have registered for biometric payment."
+        :buttons="alertButtons" @didDismiss="setOpen(false)"></ion-alert>
     </ion-content>
   </ion-page>
 </template>
 
 <script lang="ts">
-import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonLabel, IonCard, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCardContent, IonButton, IonList, IonIcon, IonRow, IonCol } from '@ionic/vue';
+import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonLabel, IonCard, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCardContent, IonButton, IonList, IonIcon, IonRow, IonCol, IonAlert } from '@ionic/vue';
 import ExploreContainer from '@/components/ExploreContainer.vue';
 import HomeCard from '@/components/HomeCard.vue';
 import LargeCard from '@/components/LargeCard.vue';
@@ -73,6 +75,7 @@ import { defineComponent, inject, reactive } from 'vue';
 import VueApexCharts from "vue3-apexcharts";
 import { star, addOutline, walletOutline, settingsOutline } from 'ionicons/icons';
 import axios from 'axios';
+import { ref } from 'vue';
 
 
 export default defineComponent({
@@ -104,15 +107,54 @@ export default defineComponent({
     IonIcon,
     IonRow,
     IonCol,
+    IonAlert,
     apexchart: VueApexCharts,
   },
   setup() {
-    return { star, addOutline, walletOutline, settingsOutline };
+    const apiUrl = inject<string>('API_URL');
+    const form = reactive({
+      userid: localStorage.getItem('userid'),
+    });
+
+    const alertButtons = [
+      {
+        text: 'Confirm',
+        handler: () => {
+          confirmAction();
+        }
+      },
+      {
+        text: 'Cancel',
+        handler: () => {
+          cancelAction();
+        }
+      }
+    ];
+
+    const confirmAction = () => {
+      axios.post(`${apiUrl}/api/biometric/approve`, form);
+    };
+
+    const cancelAction = () => {
+      axios.post(`${apiUrl}/api/biometric/decline`, form);
+    };
+
+    const isOpen = ref(false);
+
+    const setOpen = (state: boolean) => {
+      isOpen.value = state;
+    };
+
+
+    return { star, addOutline, walletOutline, settingsOutline, alertButtons, setOpen, isOpen };
   },
   created() {
     this.getWalletValue();
     this.getLatestActivities();
     this.getChartData();
+    setInterval(() => {
+      this.checkforRegistrationStatus();
+    }, 5000);
   },
   data() {
     return {
@@ -121,6 +163,7 @@ export default defineComponent({
         userid: localStorage.getItem('userid'),
       }),
       isloading: false,
+      // isOpen: false,
       transactions: [{ wallet_type: '', amount: 0, to_wallet_type: '', date: '', transaction_type: '', to_account: 0 }],
       walletvalue: [{ sum: 0, walletnumber: 0 }],
       notifications: [{ description: '', date: '' }],
@@ -166,11 +209,11 @@ export default defineComponent({
             format: 'dd MMM yyyy',
           },
           y: {
-          formatter: undefined,
-          title: {
+            formatter: undefined,
+            title: {
               formatter: (seriesName) => "MYR",
+            },
           },
-      },
         },
         fill: {
           type: 'gradient',
@@ -193,9 +236,9 @@ export default defineComponent({
             },
           },
           title: {
-          text: "MYR",
-          rotate: -90,
-      },
+            text: "MYR",
+            rotate: -90,
+          },
         },
       },
 
@@ -262,7 +305,32 @@ export default defineComponent({
         console.log(error);
         this.isloading = false;
       }
-    }
+    },
+    async checkforRegistrationStatus() {
+      try {
+        const response = await axios.post(`${this.apiUrl}/api/biometric/check`, this.form);
+        if (response.data.status == true && response.data.requireConfrimation == true) {
+          this.setOpen(true);
+        } else if (response.data.status == false || response.data.requireConfrimation == false) {
+          this.setOpen(false);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async approve() {
+      try {
+        const response = await axios.post(`${this.apiUrl}/api/biometric/check`, this.form);
+        if (response.data.status == true && response.data.requireConfrimation == true) {
+          console.log(response.data.status);
+          this.setOpen(true);
+        } else if (response.data.status == false || response.data.requireConfrimation == false) {
+          this.setOpen(false);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    },
   }
 });
 
