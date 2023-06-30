@@ -2,22 +2,63 @@
   <ion-page>
     <ion-header>
       <ion-toolbar>
-        <ion-title>Tab 3</ion-title>
+        <ion-title>Profile</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true">
-      <ion-header collapse="condense">
-        <ion-toolbar>
-          <ion-title size="large">Tab 3</ion-title>
-        </ion-toolbar>
-      </ion-header>
-
-      <ExploreContainer name="Profile Page" />
+      <ion-item button lines="inset" style="margin-top: 10px;" >
+        <ion-label class="items">Update Username</ion-label>
+      </ion-item>
+      <ion-item button lines="inset" >
+        <ion-label class="items">Change Password</ion-label>
+      </ion-item>
+      <ion-item button lines="inset" >
+        <ion-label class="items">Set Preferred Wallet</ion-label>
+      </ion-item>
     </ion-content>
   </ion-page>
 </template>
 
-<script setup lang="ts">
-import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/vue';
+<script lang="ts">
+import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonList, IonItem, IonLabel, IonRow, IonCol, IonButton } from '@ionic/vue';
+import { defineComponent, inject, reactive } from 'vue';
 import ExploreContainer from '@/components/ExploreContainer.vue';
+import axios from 'axios';
+
+export default defineComponent({
+  components: {
+    IonPage,
+    IonContent,
+    IonTitle,
+    IonHeader,
+    IonToolbar,
+    ExploreContainer,
+    IonList,
+    IonItem,
+    IonLabel,
+    IonRow,
+    IonCol,
+    IonButton,
+  },
+  data() {
+    return {
+      isloading: false,
+      apiUrl: inject<string>('API_URL'),
+      form: reactive({
+        userid: localStorage.getItem('userid'),
+      }),
+      notifications: [{ description: '', date: '' }],
+    };
+  },
+  created() {
+  },
+  methods: {
+  }
+});
 </script>
+
+<style scoped>
+.items{
+  padding: 10px;
+}
+</style>
