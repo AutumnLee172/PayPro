@@ -61,6 +61,14 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import('@/views/Transactions/Trxview.vue'),
     props: true    
   },
+  {
+    path: '/profile/username',
+    component: () => import('@/views/Profile/Username.vue')
+  },
+  {
+    path: '/profile/password',
+    component: () => import('@/views/Profile/Password.vue')
+  },
   
   
 ]

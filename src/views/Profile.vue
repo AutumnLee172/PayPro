@@ -6,10 +6,10 @@
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true">
-      <ion-item button lines="inset" style="margin-top: 10px;" >
+      <ion-item button lines="inset" style="margin-top: 10px;" href="/profile/username">
         <ion-label class="items">Update Username</ion-label>
       </ion-item>
-      <ion-item button lines="inset" >
+      <ion-item button lines="inset" href="/profile/password">
         <ion-label class="items">Change Password</ion-label>
       </ion-item>
       <ion-item button lines="inset" >
