@@ -12,8 +12,11 @@
       <ion-item button lines="inset" href="/profile/password">
         <ion-label class="items">Change Password</ion-label>
       </ion-item>
-      <ion-item button lines="inset" >
+      <ion-item button lines="inset" href="/profile/preferredwallet">
         <ion-label class="items">Set Preferred Wallet</ion-label>
+      </ion-item>
+      <ion-item button lines="inset" href="#">
+        <ion-label class="items">Logout</ion-label>
       </ion-item>
     </ion-content>
   </ion-page>

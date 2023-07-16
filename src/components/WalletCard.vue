@@ -15,8 +15,7 @@
                 <slot></slot>
             </ion-card-content>
             <ion-row class="mx-2">
-                <ion-button fill="clear">Transfer</ion-button>
-                <ion-button fill="clear">Pay</ion-button>
+                <ion-button href="/tabs/newtrx" fill="clear">Transfer</ion-button>
                 <ion-button :routerLink="{ name: 'trx.view', params: { name: WalletName, id: walletID} }" fill="clear" >View</ion-button>
             </ion-row>
 

@@ -28,15 +28,14 @@
         </div>
       </div> -->
 
-      <div class="button-row mx-1">
+      <!-- <div class="button-row mx-1">
         <div v-for="(button, index) in buttons" :key="index" class="button-wrapper">
           <ion-button color="primary">
-            <!-- <ion-icon aria-hidden="true" :icon="star"/> -->
             <ion-icon :icon="button.icon"></ion-icon>
             <span>{{ button.label }}</span>
           </ion-button>
         </div>
-      </div>
+      </div> -->
       <LargeCard Title="Transaction Amount" Subtitle="External Transaction">
         <apexchart :options="chartOptions" :series="series"></apexchart>
       </LargeCard>

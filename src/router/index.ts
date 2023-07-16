@@ -69,6 +69,10 @@ const routes: Array<RouteRecordRaw> = [
     path: '/profile/password',
     component: () => import('@/views/Profile/Password.vue')
   },
+  {
+    path: '/profile/preferredwallet',
+    component: () => import('@/views/Profile/PreferredWallet.vue')
+  },
   
   
 ]
