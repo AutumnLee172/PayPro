@@ -217,7 +217,7 @@ export default defineComponent({
         } else if (response.data.created == false) {
           const alert = await alertController.create({
             header: 'Error',
-            message: 'Something wrong happened',
+            message: response.data.error,
             buttons: ['OK'],
           });
           await alert.present();
